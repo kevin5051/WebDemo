@@ -14,5 +14,5 @@ package com.common.bean;
  *   
  */
 public class Bean2 {
-
+	private int a;
 }
