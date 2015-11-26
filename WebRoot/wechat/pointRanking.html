@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>排行榜</title>
+		<link rel="stylesheet" type="text/css" href="../resource/mgolf_weixin/css/rank.css"/>
+	</head>
+	<body>
+		<div id="header">
+			<div class="title">
+				<h1>积分排行榜</h1>
+				<p class="time"></p>
+			</div>
+			<div class="my-rank">
+				<span><span class="prNo"></span>我的排名</span>
+				<span class="fr">第<b class="num"></b>名</span>
+			</div>
+			<a href="#" class="base-btn prerank-btn lastRankingBt" onclick="getPointRanking('last')">上期排行</a>
+			<div class="rank">
+				<table class="table rank-table">
+					<thead>
+						<tr><th>排名</th><th>微信昵称</th><th>积分</th></tr></thead>
+					<tbody class="ranking">
+						
+					</tbody>
+				</table>
+			</div>
+			<!-- <p class="mt20">我们将会在一个月内（X月X日到X月X日）对球童的积分进行排名制作排行榜，积分最多的用户将会获得相应奖项。其中设置奖项为：</p>
+			<div class="prize mt20">
+				<table class="table prize-table">
+					<tbody>
+						<tr><td>一等奖1名</td><td>二等奖3名</td><td>三等奖5名</td></tr>
+						<tr><td>三亚双人十日游</td><td>iPhone6P一台</td><td>红米Note 一台</td></tr>
+						<tr><td><img src="../resource/mgolf_weixin/images/no1.png"></td><td><img src="../resource/mgolf_weixin/images/no2.png"></td><td><img src="../resource/mgolf_weixin/images/no3.png"></td></tr>
+					</tbody>
+				</table>
+			</div> -->
+			<div class="describle"></div>
+			<p class="mt20">积分为本月获得的积分，排行榜只会显示实时前十名。</p>
+			<p class="mt20">对积分排名有任何疑问，请在公众号上直接回复内容提出，我们会及时进行回复。</p>
+		</div>
+		<div id="main">
+			<div class="titlebg"><img src="../resource/mgolf_weixin/images/header.png"></div>
+			<a href="#code" class="base-btn service-btn">球童之家服务号</a>
+			<div class="section">
+				<div class="imgbox"><img src="../resource/mgolf_weixin/images/pic4.png"></div>
+				<div class="infobox">
+					<h3>六大PK模式</h3>
+					<p>自动计算实时得出每洞得分</p>
+					<p>提前显示分组降低打球干扰</p>
+				</div>	
+			</div>
+			<div class="section">
+				<div class="imgbox"><img src="../resource/mgolf_weixin/images/pic1.png"></div>
+				<div class="infobox">
+					<h3>雷达扫描</h3>
+					<p>快速扫描身边的球友</p>
+					<p>与他们一起比赛</p>
+				</div>	
+			</div>
+			<div class="section">
+				<div class="imgbox"><img src="../resource/mgolf_weixin/images/pic2.png"></div>
+				<div class="infobox">
+					<h3>打球计分</h3>
+					<p>便捷记录打球成绩</p>
+					<p>汇总查询历史数据</p>
+				</div>
+			</div>
+			<div class="section">
+				<div class="imgbox"><img src="../resource/mgolf_weixin/images/pic3.png"></div>
+				<div class="infobox">
+					<h3>分享成绩</h3>
+					<p>“我今天打了85杆的好成绩</p>
+					<p>菜B们快来膜拜我吧！”</p>
+				</div>
+			</div>
+			<div class="section">
+				<div class="imgbox" id="code"><img src="../resource/mgolf_weixin/images/code.png"></div>
+				<div class="infobox">
+					<h3>关注【球童之家】服务号</h3>
+					<p>可参加积分排行榜每期赢取超多奖品喔！</p>
+				</div>
+			</div>
+		</div>
+		<footer><a class="btn" href="#">安卓客户端下载</a><a class="btn" href="#">IOS客户端下载</a></footer>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script>
+		golf.noShare();
+		var getPointRanking = function(type) {
+			$.post("../getPointRankingList.do", {
+				"type" : type,
+				"user_id" : golf.getUrlVars()["user_id"]
+			}, function(data) {
+				if (data.result == "success") {
+					var begin_time = new Date(data.pr.begin_time).format("MM月dd日");
+					var end_time = new Date(data.pr.end_time).format("MM月dd日");
+					$(".time").html(begin_time + " - " + end_time);
+					if(type == "current"){
+						$(".prNo").html("本期");
+						$(".lastRankingBt").show();
+					}else{
+						$(".prNo").html("上一期");
+						$(".lastRankingBt").hide();
+					}
+					$(".num").html(data.myRanking);
+					$(".describle").html(data.pr.describle);
+					$(".ranking").html("");
+					jQuery.each(data.prUserList, function(i, item) {
+						var html = "<tr><td>" + (i + 1) + "</td><td>" + item.nickname + "</td><td>" + item.sp + "</td></tr>";
+						$(".ranking").append(html);
+					});
+				} else {
+					alert(data.text);
+				}
+			});
+		};
+		getPointRanking("current");
+		</script>
+	</body>
+</html>

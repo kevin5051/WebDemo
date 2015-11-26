@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>幸运抽奖</title>
+		<link rel="stylesheet" type="text/css" href="css/lottery.css"/>
+	</head>
+	<body>
+		<div class="section">
+			<h1 class="header"><img src="images/title.png" alt="幸运抽奖" title="幸运抽奖"></h1>
+			<!-- 九宫格抽奖 start  -->
+			<div class="lottery-box">
+				<div id="lottery">
+					<table border="0" cellpadding="0" cellspacing="0" class="lottery-table">
+						
+					</table>
+				</div>
+			</div>
+			<!-- 九宫格抽奖 end  -->
+			<div class="my-money"><span class="title">球童钱包</span><span class="num">¥0.00</span></div>
+			<!-- 活动说明 start -->
+			<div class="game-rule">
+				<h3><i class="up-icon"></i>幸运大抽奖活动说明</h3>
+				<div class="rule-cont">
+					<p>1.10元参与一次抽奖，可参与多次;</p>
+					<p>2.若抽中现金奖，现金将会到账在您的球童账户内;</p>
+					<p>3.若抽中奖品项目，客服将在3个工作日与您联系，发送奖品。</p>
+					<p>最终解释权归球童之家所有</p>
+				</div>
+			</div>
+			<!-- 活动说明 end -->
+			<!-- 弹出框 start -->
+			<div id="mcover">
+				<div class="mtip">
+					<div class="mtip-inner">
+						<div class="hd">
+							<img src="images/mtip_hd.png">
+							<a class="close-btn"></a>
+						</div>
+						<div class="bd">
+							<div class="text">	
+							<h3 class="module-title"></h3>				
+							<p class="tx-center module-prompt"></p>
+							<p class="tx-center price-name module-award"><b class="num"></b></p>
+							<p class="tx-left module-des"></p>
+						</div>
+						</div>
+						<div class="ft"><img src="images/mtip_ft.png"></div>
+					</div>
+				</div>
+			</div>
+			<!-- 弹出框 end -->
+		</div>
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+	<script src="../resource/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/lottery.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script type="text/javascript">
+		$.ajaxSetup({   
+	        async : false  
+	    }); 
+		var user_id = $.cookie("uid");
+		$.post("../getLuckDrawAwardList.do",{
+			"user_id" : user_id
+		},
+		function(data){
+			var html = "";
+			jQuery.each(data.list, function(i, item) {
+				if(i == 4){
+					html += "<td class='td_5'><a class='start-btn'><img src='" + item.img + "' /></a></td>";
+				}else{
+					if(i == 0 || i == 3 || i == 6){
+						html += "<tr class='lottery-group'>";
+					}
+					html += "<td class='lottery-unit td_" + (i + 1) + "' data-lottery-reward='" + item.amount.toFixed(2) + "' ><img src='" + item.img + "' /></td>";
+					if(i == 2 || i == 5 || i == 8){
+						html += "</tr>";
+					}
+				}
+			}); 
+			$(".lottery-table").html(html);
+			$(".td_1").addClass("active");
+			$(".my-money .num").html("¥" + data.myAmount.toFixed(2));
+		});
+			
+		$(document).ready(function () {
+			//每小格的高度
+			setTdHeight();
+			function setTdHeight(){
+				var tdheight=$(".start-btn img").height();
+				$(".lottery-group td").css({
+					"height":tdheight
+				});
+			}
+			$(window).resize(
+		    	function(){
+		    	setTdHeight();
+		    });
+			//
+			 $(".start-btn").click(function(){
+			 	$("#animation").addClass("reduce");
+			 });
+			//弹框
+			function showBox(){
+				$("#mcover").show();
+				$(".module-title").html(title);
+				$(".module-prompt").html(prompt);
+				$(".module-award .num").html(award);
+				$(".module-des").html(des);
+			}
+			//隐藏弹框
+			function hideBox(){
+				$("#mcover").hide();
+			}
+			$("#mcover,.mcover-close").on("click",function(){
+				hideBox();
+			})
+			//调用转盘
+			var sn2;
+			var title;
+			var prompt;
+			var award;
+			var des;
+			var myAmount2;
+			$("#lottery").lottery({
+				selector:     '#lottery',
+				width:        3,
+				height:       3,
+				index:        0,    // 初始位置
+				initSpeed:    500,  // 初始转动速度
+				upStep:       50,   // 加速滚动步长
+				upMax:        50,   // 速度上限
+				downStep:     30,   // 减速滚动步长
+				downMax:      500,  // 减速上限
+				waiting:      2000, // 匀速转动时长
+				beforeRoll: function () { // 重写滚动前事件：beforeRoll
+					/* sn2 = -1;
+					title = "提醒";
+					prompt = "请勿操作太频繁";
+					award = "";
+					des = "请刷新页面后重试";
+					myAmount2 = "0"; */
+					var re = true;	//false时终止转盘
+					$.post("../getLuckyDraw.do",{
+						"user_id" : user_id
+					},function(data){
+						if(data.result == "success"){
+							sn2 = data.lda.sn2;
+							myAmount2 = data.myAmount2;
+							if(data.lda.type == "physical_reward"){
+								title = "恭喜你";
+								prompt = "恭喜你获得了奖品：";
+								award = data.lda.goods;
+								des = "我们的后台已经对你得奖进行了记录，请立即返回公众号回复【我要领奖】进行登记。客服人员将会尽快联系你进行领奖。";
+							}else if(data.lda.type == "cash_award"){
+								if(data.lda.amount == 0){
+									title = "再接再厉！";
+									prompt = "";
+									award = "";
+									des = "对不起，你没有抽中奖品哦，请再接再厉！我们的得奖率可是很高的喔！";
+								}else{
+									title = "恭喜你";
+									prompt = "恭喜你获得了奖金：";
+									award = "¥" + data.lda.amount.toFixed(2);
+									des = "奖金已到账【球童钱包】,记得查收哦!";
+								}
+							}else{
+								alert("data error")
+							}
+							$(".my-money .num").html("¥" + data.myAmount1.toFixed(2));
+						}else{
+							myAmount2 = data.myAmount1;
+							title = "有个小问题";
+							prompt = "你的现金已不足10元，快快去赚钱吧！";
+							award = "";
+							des = "邀请球友球童注册高球大战可以获得红包到账哦！";
+							showBox();
+							re = false;
+						}
+					});
+					return re;
+				},
+				afterStop: function () {
+					showBox();	
+					$(".my-money .num").html("¥" + myAmount2.toFixed(2));
+					return true;
+				},
+				aim: function () {
+					return sn2;
+				}
+			});
+		});
+	
+	</script>		
+	</body>
+</html>

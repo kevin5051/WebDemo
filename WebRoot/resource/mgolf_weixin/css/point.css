@@ -1,0 +1,128 @@
+@charset "utf-8";
+/* css reset start*/
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,em,button{margin:0;padding:0;}
+body{ font-family:"Microsoft YaHei", "微软雅黑", arial,Simsun, sans-serif; color:#5a5a5a; background-color: #FFF;font-size: 1.4rem; }
+img, fieldset{border:none;vertical-align:middle;}
+input, textarea{font-size:12px;}
+table{border-collapse:collapse;border-spacing:0;}
+a{color:#333;text-decoration:none;}
+a:hover{text-decoration:none;}
+h1,h2,h3,h4,h5{font-weight: normal;}
+ul,ol{list-style:none;}
+b{font-weight: normal;}
+input[type="button"],input[type="submit"]{-webkit-appearance:none;cursor: pointer;}
+input[type="text"]{border-radius:0;}
+*{
+    -webkit-text-size-adjust:none;
+    -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
+html{font-size: 62.5%;}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.cl{
+    clear: both;
+}
+.color-rd{
+    color: #e60012;
+}
+.color-gr{
+    color: #009600;
+}
+.section{
+    padding:1.3rem;
+}
+.my-point{
+    background: #DCDCDC;
+    font-size: 2.2rem;
+    color: #3d3d3d;
+    padding-top: 3.0rem;
+}
+.my-point .list{
+    padding-bottom: 0.5rem;
+    line-height: 3.0rem;
+}
+.list .result{
+    float: right;
+}
+.list .num{
+    font-size: 3.0rem;
+    color: #009600;
+}
+.list b.num {
+    padding: 0 0.5rem;
+}
+.my-point .tips{  
+    text-align: right;
+    padding-top: 0.8rem;
+}
+.my-point .tips:before{
+    content: "?";
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius:1.7rem;
+    border:1px solid #FFF;
+    font-size: 2.0rem;
+    font-family: "方正兰亭黑简体","Microsoft YaHei", "微软雅黑";
+    color: #FFF;
+    text-align: center;
+    line-height: 1.8rem;
+    display: inline-block;
+    position: relative;
+    top:0.1rem;
+    right: 0.5rem;
+}
+.my-point .tips a{
+    font-size: 2.0rem;
+    color: #FFF;
+}
+.point-record{
+    margin-bottom: 6.0rem;
+}
+.point-record h3{
+    padding-bottom: 1.0rem;
+    font-size: 2.8rem;
+}
+.point-table{
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    word-wrap: break-word;
+    text-align: center;
+    font-size: 2.0rem;
+}
+.point-table {
+    border-top:1px solid #e7e5e6;
+    margin-bottom: 1.0rem;
+}
+.point-table tr{
+    border-bottom:1px solid #e7e5e6;
+}
+.point-table tr th,.point-table tr td{
+    padding: 0.5rem;
+    vertical-align: top;
+}
+.point-table tr th{
+    font-weight: normal;
+    text-align: left;
+    width: 60%;
+}
+.point-table tr td{
+    text-align: right;
+}
+.point-table tr th .time{
+    color: #b4b4b4;
+    font-size: 1.6rem;
+}
+.oprate-box{
+    text-align: center;
+}
+.more-btn{ 
+    color: #b4b4b4;
+    font-size: 2.0rem;
+}

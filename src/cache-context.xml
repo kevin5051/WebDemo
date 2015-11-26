@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+	<!-- jedis池配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="300" />
+		<property name="maxIdle" value="100" />
+		<property name="maxWait" value="10000" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<!-- 	jedis池服务器配置 -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="127.0.0.1" /><!--reids服务器ip -->
+		<constructor-arg index="2" value="6379" type="int" /><!-- redis服务器port -->
+	</bean>
+
+</beans>

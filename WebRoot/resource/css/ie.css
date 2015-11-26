@@ -1,0 +1,33 @@
+#left,#right,#hleft,#hright{
+	display: inline-block;
+		position: absolute;
+}
+#left,#hleft{
+	
+	top: 10px;
+	left: 5px;
+}
+#right,#hright{
+	left:250px;
+	top: 10px;
+}
+body {
+	
+}
+#ierow{
+	margin-top: 30px;
+}
+.form-group,.form-control{
+	display: inline-block;
+	width: 100px;
+}
+.modal .form-group,.modal .form-control{
+	width: 250px;
+}
+.modal-dialog{
+	width:650px;
+	margin: auto;
+}
+.modol-content>div{
+	display: block;
+}

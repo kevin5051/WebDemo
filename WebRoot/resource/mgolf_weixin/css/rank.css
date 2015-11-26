@@ -1,0 +1,233 @@
+@charset "utf-8";
+/* css reset */
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,em,button{margin:0;padding:0;}
+body{ font-family:"Microsoft YaHei", "微软雅黑", arial,Simsun, sans-serif; color:#333; background-color: #fff; }
+img, fieldset{border:none;vertical-align:middle;}
+input, textarea{font-size:12px;}
+table{border-collapse:collapse;}
+a{color:#06c;text-decoration:none;}
+a:hover{text-decoration:none;}
+h1,h2,h3,h4,h5{font-weight: normal;}
+ul,ol{list-style:none;}
+input[type="button"],input[type="submit"]{-webkit-appearance:none;cursor: pointer;}
+input[type="text"]{border-radius:0;}
+img{width: 100%;}
+body{max-width: 640px;margin:0 auto;}
+html{font-size: 62.5%;}
+*{
+    -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.mt20{
+	margin-bottom: 2.0rem;
+}
+#header{
+	background: linear-gradient(top, #EF7F18, #ed6c00);
+	background: -moz-linear-gradient(top, #EF7F18, #ed6c00);
+	background: -o-linear-gradient(top, #EF7F18, #ed6c00); 
+	background: -webkit-linear-gradient(top, #EF7F18, #ed6c00);
+	padding: 2.0rem 1.3rem;
+	color: #FFF;
+	font-size: 1.5rem;
+}
+.title{
+	padding-bottom: 1.0rem;
+}
+.title h1{
+	font-size: 2.8rem;
+}
+.my-rank{
+	font-size: 2.2rem;
+	line-height: 3.0rem;
+	overflow: hidden;
+}
+.my-rank .num{
+	padding:0 0.5rem;
+	font-size: 3.0rem;
+	color: #fff100;
+}
+.base-btn{
+	display: block;
+	width: 14.0rem;
+	height: 3.5rem;
+	line-height: 3.5rem;
+	text-align: center;
+	border-radius: 3.0rem;
+	font-size: 2.0rem;
+	margin:2.5rem auto;
+}
+.prerank-btn{
+	padding-left: 3.0rem;
+	color: #FFF;
+	border:1px solid #FFF;
+	background: url(../images/rank.png) no-repeat 3.5rem center;
+	background-size: 2.0rem;
+}
+.service-btn{
+	width: 17.0rem;
+	color: #ed6f04;
+	border:1px solid #ed6f04;
+}
+.table{
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    word-wrap: break-word;
+    text-align: center;
+}
+.table tr th{
+	font-weight: normal;
+}
+.rank{
+	margin-bottom: 3.0rem;
+}
+.rank-table tr th{
+	padding: 0.5rem;
+	text-align: left;
+}
+.rank-table tr th:last-child{
+	text-align: right;
+}
+.rank-table tr td{
+	padding:0.2rem 0.5rem;
+}
+.rank-table tr td:first-child,.rank-table tr td:nth-child(2){
+	text-align: left;
+	width: 33%;
+}
+.rank-table tr td:last-child{
+	text-align: right;
+	width: 34%;
+}
+.rank-table thead tr{
+	border-bottom: 1px solid #F7BF8B;
+	font-size: 2.0rem;
+}
+.rank-table tbody tr:nth-child(-n+10){
+	color: #fff100;
+}
+.rank-table tbody tr:nth-child(-n+4){
+	color: #e60012;
+}
+.rank-table tbody tr:nth-child(1){
+	color: #94252a;
+}
+.rank-table tbody tr:nth-child(10){
+	color: #FFF;
+}
+.prize-table tbody tr td{
+	border:1px solid #FFF;
+	padding: 1.0rem;
+}
+.prize-table tbody tr:last-child td{
+	padding: 0.1rem;
+}
+#main .titlebg img{
+	width: 100%;
+}
+#main .titlebg:after{
+	content:"";
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-right:1px solid #F4B28E;
+	border-bottom:1px solid #F4B28E;
+	margin:0 auto;
+	transform:rotate(45deg);
+	-webkit-transform:rotate(45deg);
+	position: relative;
+	top:-3.0rem;
+}
+#main{
+	margin-bottom: 9.0rem;
+}
+#main h2{
+	text-align: center;
+	font-size: 2.0rem;
+	padding: 2.0rem 0;
+}
+.section{
+	margin-bottom: 9.0rem;
+}
+.section .imgbox img{
+	width: 100%;
+}
+.section .infobox{
+	text-align: center;
+}
+.section .infobox h3{
+	font-size: 3.0rem;
+	color: #ed6d00;
+	padding:2.0rem 0 1.0rem 0;
+}
+.section .infobox p{
+	font-size: 2.0rem;
+	color: #b4b4b4;
+}
+.alertmsg{
+	font-size: 1.5rem;
+	color:#FFF;
+	z-index: 9999;
+	border-radius: 5px;
+	text-align: center;
+	margin:2.0rem 0 3.0rem 0;
+}
+@media screen and (max-width: 320px){
+	.userphone .areacode{
+		width: 5.0rem;
+	}
+}
+.go-regist{
+	width: 100%;
+	padding: 1.5rem 0;
+	text-align: center;
+	color: #808080;
+	font-size: 1.8rem;
+	background: #f0f0f0;
+	margin-bottom: 1.2rem;
+}
+.go-regist a{
+	color: #3eb370;
+	border-bottom: 1px solid #3eb370;
+}
+footer{
+	width: 100%;
+	background: #ed6d00;
+	box-sizing:border-box;
+	padding: 1.8rem 1.0rem;
+	display: -webkit-box;
+}
+footer .btn{
+	display: block;
+	border:1px solid #FFF;
+	border-radius: 0.7rem;
+	padding:0.8rem;
+	-webkit-box-flex: 1;
+	font-size: 2.0rem;
+	color:#FFF;
+	text-align: center;
+	margin:0 0.5rem;
+}
+@media screen and (max-width: 360px){
+    footer .btn{
+        font-size: 1.8rem;
+    }
+    #main h2{
+    	font-size: 1.8rem;
+    }
+}
+@media screen and (max-width: 320px){
+    footer .btn{
+        font-size: 1.6rem;
+    }
+    #main h2{
+    	font-size: 1.6rem;
+    }
+}

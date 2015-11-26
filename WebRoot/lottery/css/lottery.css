@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS RESET*/
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,em,button {margin: 0;padding: 0;}
+body {font-family: "Microsoft YaHei", "微软雅黑", arial,Simsun, sans-serif;background:url(../images/lottery_bg.png) no-repeat center;background-size: cover;max-width: 640px;margin:0 auto;}
+img, fieldset {border: none;vertical-align: middle;}
+input, textarea {font-size: 1.2rem;}
+table {border-collapse: collapse;border-spacing: 0;}
+a,a:link,a:hover,a:visited {color: #fff100;text-decoration: none;cursor: pointer;}
+h1,h2,h3,h4,h5,b {font-weight: normal;}
+ul,ol {list-style: none;}
+i{font-style: normal;}
+input[type="button"],input[type="submit"] {-webkit-appearance: none;cursor: pointer;}
+input {-webkit-appearance: none;outline: none;}
+* {-webkit-text-size-adjust: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webkit-tap-highlight-color: transparent;}
+html {font-size: 62.5%;}
+/*@media only screen and (min-width: 481px){
+    html {font-size: 94%!important;}
+}
+@media only screen and (min-width: 561px){
+    html {font-size: 109%!important;}
+}
+@media only screen and (min-width: 641px){
+    html {font-size: 125%!important;}
+}*/
+/*BASE CSS*/
+img{width: 100%;}
+.fl {float: left;}
+.fr {float: right;}
+.cl {clear: both;}
+.tx-center{text-align: center;}
+.tx-left{text-align: left;}
+.section{padding: 0.5rem;box-sizing:border-box;max-width: 640px;margin: 0 auto;}
+.header{text-align: center;padding: 1.0rem 0;}
+.header img{width: 64%;}
+.lottery-box{box-sizing:border-box;background: #FF745B;border:5px solid #FFF;}
+#lottery table{width:100%;}
+#lottery{width:100%;box-sizing:border-box;padding:0.5rem;background-size:cover; background-color:#FF745B;}
+#lottery table td{width:33.3333333%;text-align:center;vertical-align:middle;font-size:24px;color:#333;font-index:-999}
+#lottery table td a{display:block;text-decoration:none;}
+#lottery table td.td_1{background-color:#8670ff;}
+#lottery table td.td_2{background-color:#df88cf;}
+#lottery table td.td_3{background-color:#8ed9f9;}
+#lottery table td.td_4{background-color:#fdfacf;}
+#lottery table td.td_5{background-color:#ff745b;}
+#lottery table td.td_6{background-color:#21d9cf;}
+#lottery table td.td_7{background-color:#c3d94e;}
+#lottery table td.td_8{background-color:#ffd6e8;}
+#lottery table td.td_9{background-color:#fa598f;}
+#lottery table td.active{background-color:yellow;}
+.my-money{display: -webkit-box;margin: 3.0rem 10%;}
+.my-money span{font-size: 2.0rem;display: block;padding: 1.0rem 0;}
+.my-money .title{padding-right: 2.0rem;}
+.my-money .num{color: #da4444;-webkit-box-flex: 1;text-align: center;background: #fdfacf;border-radius: 0.5rem;position: relative;}
+#mcover {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);display: none;z-index: 20000;}
+#mcover .mtip {width: 26.0rem;position: absolute;/*top: 50%;*/left:50%;/*margin-top: -16.0rem;*/margin-left: -13.0rem;z-index: 999;display: table;height: 100%;}
+.mtip .mtip-inner{text-align:center;    vertical-align: middle;display: table-cell;}
+.mtip .mtip-inner .close-btn{position: absolute;top:-3.0rem;right: 0;display: block;width: 2.0rem;height: 2.0rem;background: url(../images/close.png) no-repeat; background-size: cover;}
+.mtip .mtip-inner .text{width: 100%;height: 100%;font-size: 1.6rem;color: #1e1e1e;text-align: center; box-sizing: border-box;padding-top: 2.0rem;}
+.mtip .mtip-inner .text p{padding: 0.5rem 2.5rem 0 2.5rem;}
+.mtip .mtip-inner .price-name {font-size: 2.4rem;color: #F00;}
+.mtip .mtip-inner .text .num{font-size: 6.0rem;}
+.mtip-inner .hd{position: relative;}
+.mtip-inner .bd{width: 100%;background: url(../images/mtip_bd.png) repeat-y;background-size: 100%;position: relative;padding-top:1.0rem;}
+.mtip-inner .bd p:last-child{margin-bottom:-1.5rem;}
+.mtip-inner .bd h3{display:block;width:100%;text-align:center;font-size: 4.2rem;color:#ef7f00;margin-top: -5.0rem;}
+.game-rule{font-size: 1.6rem;color: #1e1e1e;padding: 0 1.5rem;}
+.game-rule h3{padding-bottom: 5.0rem;text-align: center;}
+.game-rule h3 .up-icon{display: inline-block;width: 1.5rem;height: 1.5rem;background: url(../images/up.png) no-repeat center center; margin-right: 0.3rem; position: relative;top: 0.2rem;}
+.game-rule p{padding-bottom: 1.0rem;}
+/*@media only screen and (max-width: 320px){
+    #mcover .mtip {z-index: 999;width: 22.0rem;position: absolute;top: 50%;left:50%;margin-top: -13.0rem;margin-left: -11.0rem;}
+}
+.start-btn{position: relative;}
+#animation{
+	opacity: 0;
+	position: absolute;
+	top:30%;
+	left:20%;
+	background: #FFF;
+	padding: 0.5rem;
+	border-radius: 0.5rem;
+	text-align: center;
+}
+.reduce{
+color: #ef7f00;
+-webkit-animation:fadeOutUp 1s .2s ease both;
+-moz-animation:fadeOutUp 1s .2s ease both;}
+@-webkit-keyframes fadeOutUp{
+0%{opacity:1;
+-webkit-transform:translateY(0)}
+100%{opacity:0;
+-webkit-transform:translateY(-40px)}
+}*/

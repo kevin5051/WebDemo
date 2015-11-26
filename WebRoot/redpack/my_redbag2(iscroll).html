@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>我的红包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/iscroll.css">
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script type="text/javascript">
+		var myScroll,
+			pullDownEl, pullDownOffset,
+			pullUpEl, pullUpOffset,
+			generatedCount = 0;
+		//下拉方法
+		function pullDownAction () {
+			setTimeout(function () {
+				var el, li, i;
+				el = document.getElementById('thelist');
+
+				for (i=0; i<3; i++) {
+					li = document.createElement('li');
+					li.innerText = 'Generated row ' + (++generatedCount);
+					el.insertBefore(li, el.childNodes[0]);
+				}
+				
+				myScroll.refresh();		
+			}, 1000);	
+		}
+		//上拉方法
+		function pullUpAction () {
+			setTimeout(function () {	
+				var el, li, i;
+				el = document.getElementById('thelist');
+
+				var temp = '';
+				for(var i=1;i<3;i++){
+					temp += '<li><h3>球童红包</h3><p class="msg">成功邀请一位球童</p><p class="time">有效期至2015-12-38</p><i class="num">￥3.15</i></li>';
+				}
+				$('#thelist').append(temp);
+				
+				myScroll.refresh();		
+			}, 1000);	
+		}
+
+		function loaded() {
+			pullDownEl = document.getElementById('pullDown');
+			pullDownOffset = pullDownEl.offsetHeight;
+			pullUpEl = document.getElementById('pullUp');	
+			pullUpOffset = pullUpEl.offsetHeight;
+			
+			myScroll = new iScroll('wrapper', {
+				useTransition: true,
+				topOffset: pullDownOffset,
+				onRefresh: function () {
+					if (pullDownEl.className.match('loading')) {
+						pullDownEl.className = '';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新';
+					} else if (pullUpEl.className.match('loading')) {
+						pullUpEl.className = '';
+						pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉查看下一页';
+					}
+				},
+				onScrollMove: function () {
+					if (this.y > 5 && !pullDownEl.className.match('flip')) {
+						pullDownEl.className = 'flip';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = '松开加载';
+						this.minScrollY = 0;
+					} else if (this.y < 5 && pullDownEl.className.match('flip')) {
+						pullDownEl.className = '';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新';
+						this.minScrollY = -pullDownOffset;
+					} else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'flip';
+						pullUpEl.querySelector('.pullUpLabel').innerHTML = '松开加载';
+						this.maxScrollY = this.maxScrollY;
+					} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+						pullUpEl.className = '';
+						pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉查看下一页';
+						this.maxScrollY = pullUpOffset;
+					}
+				},
+				onScrollEnd: function () {
+					if (pullDownEl.className.match('flip')) {
+						pullDownEl.className = 'loading';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';				
+						pullDownAction();	// Execute custom function (ajax call?)
+					} else if (pullUpEl.className.match('flip')) {
+						pullUpEl.className = 'loading';
+						pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+						pullUpAction();	// Execute custom function (ajax call?)
+					}
+				}
+			});
+			
+			setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+		}
+
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+		document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+		</script>
+	</head>
+	<body style="background:#f5f5f5;">
+		<div class="my-all"><span>可用红包总额</span><span class="num">￥0.00</span></div>
+		<div id="wrapper">
+			<div id="scroller">
+				<div id="pullDown">
+					<span class="pullDownIcon"></span><span class="pullDownLabel">上拉刷新</span>
+				</div>
+				<ul id="thelist" class="my-list">
+					<li class="spc">
+						<a href="">
+							<h3>咦？居然没有红包</h3>
+							<p class="msg">给你机会，按这里立马抽几个！</p>
+						</a>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+					<li>
+						<h3>球童红包</h3>
+						<p class="msg">成功邀请一位球童</p>
+						<p class="time">有效期至2015-12-38</p>
+						<i class="num">￥3.15</i>
+					</li>
+				</ul>
+				<div id="pullUp">
+					<span class="pullUpIcon"></span><span class="pullUpLabel">上拉查看下一页</span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

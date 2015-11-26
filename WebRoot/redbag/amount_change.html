@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>球童钱包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<style type="text/css">
+		#mask{
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: transparent;
+		    display: block;
+		    z-index: 1;
+		}
+		.reject-reason{
+			text-align: center;border: 1px solid #AAAAAA;display: block;border-radius:0.3rem;padding: 0.15rem;
+		}
+		</style>
+	</head>
+	<body class="bg3">
+		<div class="item">
+			<div class="item-hd">
+				<div class="nav-bar" style="width: 35%;text-align: center;">
+					<label class="nav-label" data="all">全部</label>
+					<ul class="nav-ul">
+						<li><a data="all">全部</a></li>
+						<li><a data="get">收入</a></li>
+						<li><a data="pay">消费</a></li>
+						<li><a data="withdrawals">提现</a></li>
+					</ul>
+				</div>
+				<h2 style="width: 20%;text-align: right;margin-left: 30%;margin-right: 2%;">
+					<!-- <a href="my_redbag.html" style="text-align: center;border: 1px solid #AAAAAA;display: block;border-radius:0.3rem;padding: 0.15rem;">我的红包</a> -->
+				</h2>
+				<div id="mask" style="display: none;"></div>
+			</div>
+			<ul class="item-ul">
+				
+			</ul>
+			<p class="pullup-btn" data-cur="0"><span>点击加载更多</span></p>
+		</div>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/fontsize.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script src="../resource/js/jquery.cookie.js"></script>
+		<script type="text/javascript">
+		golf.noShare();
+		var user_id =  $.cookie("uid") ;
+		function loadMyWithdrawals(type,curPage) {
+			$.post("../redpackAmountChangeList.do", {
+				"user_id" : user_id,
+				"type" : type,
+				"currentPage" : curPage
+			}, function(data) {
+					if(data.list.length < 10){
+						$(".pullup-btn").html("没有更多现金收支记录");
+					}
+					if(data.totalPage == 0){
+						$(".pullup-btn").html("暂无现金收支记录");
+					}
+					$(".pullup-btn").attr("data-cur", data.currentPage);
+					jQuery.each(data.list, function(i, item) {
+						var time = new Date(item.create_time).format("yyyy-MM-dd hh:mm:ss");
+						var title = "";
+						var status = "";
+						var amount_color = "col-rd";
+						var amount = item.amount;
+						if(item.type == "invite_caddie"){
+							title = "邀请球童奖励";
+							status = "已发放";
+							amount = "+" + amount.toFixed(2);
+							amount_color = "col-rd";
+						}else if(item.type == "invite_player"){
+							title = "邀请球友奖励";
+							status = "已发放";
+							amount = "+" + amount.toFixed(2);
+							amount_color = "col-rd";
+						}else if(item.type == "cash"){
+							title = "现金奖励";
+							status = "已发放";
+							amount = "+" + amount.toFixed(2);
+							amount_color = "col-rd";
+						}else if(item.type == "withdrawals"){
+							title = "提现申请";
+							amount = "-" + amount.toFixed(2);
+							amount_color = "col-bl";
+							if(item.status == "pending"){
+								status = "待审核,2个工作日内处理完毕";
+							}else if(item.status == "success"){
+								status = "已通过";
+							}else if(item.status == "reject"){
+								status = "不通过";
+							}
+						}else if(item.type == "withdrawals_failed"){
+							title = "提现失败";
+							status = "<span class='reject-reason' data='" + item.reject_reason + "' onclick='showRejectReason(this)'>查看原因</span>";
+							amount = "+" + amount.toFixed(2);
+							amount_color = "col-rd";
+						}else if(item.type == "lottery"){
+							title = "游戏消费";
+							status = "幸运抽奖消费";
+							amount = "-" + amount.toFixed(2);
+							amount_color = "col-bl";
+						}else if(item.type == "lottery_award"){
+							title = "抽奖奖励";
+							status = "幸运抽奖得奖";
+							amount = item.lottery_award;
+							amount_color = "col-rd";
+						}
+						
+						var html = "<li><h3>" + title + "</h3><p>" + time + "</p><p>编号：" + item.trade_no + "</p>";
+						html += "<span class='state'>" + status + "</span><span class='num " + amount_color + "'>" + amount + "</span></li>";
+						$(".item-ul").append(html);
+					});
+			});
+		};
+		
+		$(function(){
+			$(".nav-ul li").eq(0).hide();
+			$(".item-ul").html("");
+			loadMyWithdrawals("all",1);
+			$(".nav-bar .nav-label").click(function(){
+				$("#mask").show();
+				$(".nav-ul ").toggle();
+			});
+			$(".nav-ul li").click(function(){
+				var labelvalue=$(this).find("a").text();
+				var type = $(this).find("a").attr("data");
+				$(".nav-ul ").hide();
+				$(this).hide().siblings("li").show();
+				$(".nav-label").text(labelvalue);
+				$(".nav-label").attr("data",type);
+				$(".item-ul").html("");
+				loadMyWithdrawals(type,1);
+				
+			});
+			$("#mask").click(function(){
+			    $(".nav-ul").hide();
+			    $("#mask").hide();
+			});
+			$(".pullup-btn").click(function(){
+				var page = parseInt($(".pullup-btn").attr("data-cur")) + 1;
+				var type = $(".nav-label").attr("data");
+				$(".pullup-btn span").html("点击加载更多");
+				loadMyWithdrawals(type,page);
+			});
+		});
+			
+		function showRejectReason(evt){
+			var reject_reason = $(evt).attr("data");
+			alert("原因：" + reject_reason)
+		}
+		</script>
+	</body>
+</html>

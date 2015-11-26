@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>高球大战抢红包</title>
+<link rel="stylesheet" type="text/css"
+	href="../resource/mgolf_weixin/css/point.css">
+</head>
+<body>
+	<div>
+		<h3>高球大战抢红包</h3>
+		<p>
+			恭喜您获得了总额为<span class="total"></span>元的红包！请到【我的红包】内查看。
+		</p>
+		<table class="redpack-table">
+	
+		</table>
+		<button>邀请球童兑换红包</button>
+		<button>邀请球友，球友再邀请的您也有奖！</button>
+	</div>
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script>
+	golf.noShare();
+		var share = golf.getUrlVars()["share"];
+		var task_id = golf.getUrlVars()["task_id"];
+		if(share == "0"){	
+			$.post("../getRedpackByTaskId.do",{
+				"task_id" : task_id
+			},function(data){
+				$(".total").html(data.total);
+				jQuery.each(data.list, function(i, item) {
+					$(".redpack-table").append("<tr><td>" + item.title + "</td><td>" + item.amount + "</td></tr>");
+				}); 
+			});
+		}else{		//此链接是通过分享得到，需要重新网页授权
+			$.post("../authorizeUrl.do",{
+				"menu" : "myTask"
+			},function(data){
+				window.location.href = data;
+			});
+		}
+	</script>
+</body>
+</html>

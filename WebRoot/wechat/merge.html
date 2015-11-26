@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>存在不同账号</title>
+<style type="text/css">
+	.rule-cont {
+	color: #868686;
+	font-size: 1.4rem;
+}
+
+.rule-cont p,.score {
+	margin-bottom: 2.0rem;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="../resource/wechat/style.css">
+</head>
+<body>
+	<header>
+		<h1>存在不同账号</h1>
+	</header>
+	<div class="rule-cont">
+		<h2>我们检查到手机号和微信号已经分别注册了，请确认是否合并保留哪个账号：</h2>
+		<div class="login_box">
+			<p class="form-p msg-p">
+				<span style="display: none;" class="msg"></span>
+			</p>
+			<a href="#" onclick="merge(this)" data-type="wechat" class="nextbtn" style="margin-top: 1em;">保留微信账号</a>
+			<a href="#" onclick="merge(this)" data-type="tel" class="nextbtn" style="margin-top: 1em;">保留手机账号</a>
+			<a href="#" onclick="back(this)" class="nextbtn" style="margin-top: 1em;">不合并，返回上一步</a>
+		</div>
+	</div>
+
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script src="../resource/js/jquery.cookie.js"></script>
+	<script>
+	golf.noShare();
+		var merge = function(e) {
+			var type = $(e).attr("data-type");
+			var telnumber = golf.getUrlVars()["telnumber"];
+
+			$.post("../merge.do", {
+				"type" : type,
+				"telnumber" : telnumber,
+			}, function(data) {
+				if (data.result == "success") {
+					window.location.href = "registSuccess.html";
+				} else {
+					$(".msg").show();
+					$(".msg").html(data.text);
+				}
+			});
+		};
+		
+		var back = function(e) {
+			window.location.href = "regist.html";
+		};
+	</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>设置密码</title>
+<link rel="stylesheet" type="text/css" href="../resource/wechat/style.css">
+</head>
+<body>
+	<header>
+		<h1>最后一步</h1>
+	</header>
+	<p style="font-size: 18px;">您的球童资料已保存，请设置密码保护：</p>
+	<div class="login_box">
+		<p class="form-p">
+			<input class="ipt pwdipt" type="password" placeholder="请输入密码">
+		</p>
+		<p class="form-p msg-p">
+			<span style="display: none;" class="msg"></span>
+		</p>
+		<a href="#" onclick="setPwd(this)" class="nextbtn">提交</a>
+	</div>
+
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script src="../resource/js/jquery.cookie.js"></script>
+	<script>
+	golf.noShare();
+		var setPwd = function(e){
+			var user_id = $.cookie("uid");
+			var telnumber = golf.getUrlVars()["telnumber"];
+			var pwd = $(".pwdipt").val();
+			$(".msg").show();
+			if($.trim(pwd).length < 6 || $.trim(pwd).length > 16){
+				$(".msg").html("密码长度应在[6-16]之间");
+			}else{
+				$.post("../setPwd.do",{
+					"user_id" : user_id,
+					"telnumber" : telnumber,
+					"pwd" : pwd
+				},function(data){
+					if(data.result == "success"){
+						window.location.href = "registSuccess.html";
+					}else{
+						$(".msg").html(data.text);
+					}
+				});
+			}
+		};
+		
+	</script>
+</body>
+</html>

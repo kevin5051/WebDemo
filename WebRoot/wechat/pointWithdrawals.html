@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>积分提现</title>
+		<style type="text/css">
+			.rule-cont {
+				color: #868686;
+				font-size: 1.4rem;
+			}
+			
+			.rule-cont p,.score {
+				margin-bottom: 1.0rem;
+			}
+			.rule-box{
+				padding:1.0rem 2.0rem;
+			}
+			.rule-box h3{
+				font-size: 1.8rem;
+				padding-bottom: 0.8rem;
+				margin-bottom: 1.0rem;
+				border-bottom: 1px solid #DDD8CE;
+			}
+			.ipt {
+				width: 100%;
+				border-radius: 5px;
+			}
+			.ipt {
+				border: 1px solid #C8C8C8;
+				background: #F5F5F5;
+				height: 4.0rem;
+				padding: 1.0rem;
+				font-size: 1.8rem;
+				font-weight: normal;
+				-webkit-appearance: none;
+				box-sizing: border-box;
+				outline: none;
+			}
+			.nextbtn {
+				display: block;
+				width: 100%;
+				height: 4.0rem;
+				line-height: 4.0rem;
+				background: #EA5504;
+				border-radius: 5px;
+				text-align: center;
+				color: #FFF;
+				font-size: 2.0rem;
+			}
+			
+			.nextbtn {
+				margin-top: 6.0rem;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="../resource/wechat/style.css">
+	</head>
+	<body>
+	<div class="rule-box">
+	<h3>积分提现</h3>
+		<div class="rule-cont">
+			<p class="myPoint">我的积分：<span></span></p>
+		</div>
+		<p class="form-p">
+			<input class="ipt iptpoint" type="tel" placeholder="提现积分" oninput="calculate()">
+		</p>
+		<div class="rule-cont">
+			<p class="times" data-ratio=""></p>
+			<p>可兑换现金：<span class="amount" style="color: red;">0</span>
+			<p class="ratioContent">
+		</div>
+		<a href="#" onclick="submit(this)" class="nextbtn">提交</a>
+	</div>
+	
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		golf.noShare();
+		<script>
+			$.post("../getPointWithdrawRatio.do", {}, function(data) {
+				$(".times").html("必须是" + data.times + "的倍数。");
+				$(".ratioContent").html(data.content);
+				$(".times").attr("data-ratio", data.ratio);
+			});
+			
+			$.post("../getMyPoint.do", {
+				"user_id" : golf.getUrlVars()["user_id"]
+			}, function(data) {
+				$(".myPoint").find("span").html(data.point);
+				calculate();
+			});
+			
+			var calculate = function(){
+				var point = $(".iptpoint").val();
+				var ratio = $(".times").attr("data-ratio");
+				var amount = point * ratio;
+				$(".amount").html(amount);
+			};
+			
+			var submit = function(){
+				var user_id = golf.getUrlVars()["user_id"];
+				var point = $(".iptpoint").val();
+				if(point == ""){
+					alert("请输入提现积分数");
+				}else{
+					$.post("../pointWithdrawals.do",{
+						"user_id" : user_id,
+						"point" : point
+					},function(data){
+						if(data.result == "success"){
+							window.location.href = "pwSuccess.html?user_id=" + user_id;
+						}else{
+							alert(data.text);
+						}
+					});
+				}
+			};
+			
+		</script>
+	</body>
+</html>

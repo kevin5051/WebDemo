@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>我的红包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div class="section bg1">
+			<h1 class="myrd-title"><img src="images/title_myrd.png" alt="我的红包" title="我的红包"></h1>
+			<div class="my-all"><span>可用红包总额</span><span class="num">￥0.00</span></div>
+			<a href="my_wallet.html" class="todo-btn">球童钱包</a>
+			<a href="invite.html" class="todo-btn">去做任务</a>
+			<ul class="my-list">
+				
+			</ul>
+			<p href="" class="pullup-btn" data-cur="0" onclick="getMyRedpack()"><span>点击加载更多</span></p>
+		</div>
+		<!-- 公共遮罩层 start-->
+		<div id="mcover"></div>
+		<!-- 公共遮罩层 end-->
+		<!-- 分享提示 start-->
+		<div class="share-tip">
+			<div class="share-tip-inner">
+				<p>分享红包，你和小伙伴都能抢！</p>
+				<p>分享红包，请点击右上角按钮选择</p>
+				<p><b>"发送给朋友"</b>或<b>"分享到朋友圈"</b>哦~</p>
+			</div>
+		</div>
+		<!-- 分享提示 end-->
+		<!-- 分享成功 start-->
+		<div class="success-tip tip-box">
+			<div class="tip-box-inner">
+				<div class="tip-text">
+					<p>恭喜你分享成功，</p>
+					<p>快点去抢红包吧！</p>
+				</div>
+				<a href="#" class="close-btn">X</a>
+			</div>
+		</div>
+		<!-- 分享成功 end-->
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/fontsize.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script src="../resource/js/jquery.cookie.js"></script>
+		<script>
+		$(function(){
+			$("#mcover").click(function(){
+				$("#mcover").hide()
+				$(".share-tip").hide();
+				$(".tip-box").hide();
+			});
+			/*弹出框关闭按钮*/
+			$(".close-btn").click(function(){
+				$("#mcover").hide();
+				$(".tip-box").hide();
+			});
+		});	
+		
+		golf.noShare();
+			var getMyRedpack = function(){
+				var user_id = $.cookie("uid");
+				
+				$.post("../getMyRedpackList.do", {
+					"user_id" : user_id,
+					"currentPage" : parseInt($(".pullup-btn").attr("data-cur")) + 1
+				}, function(data) {
+					$(".pullup-btn").attr("data-cur",data.currentPage);
+					$(".my-all .num").html("¥" + data.total.toFixed(2));
+					if(data.total == 0 && $.trim($(".my-list").html()) == ""){
+						var url = "grab.html?share_id=" + data.share_id + "&invite_code=-1";
+						var grab_href = "<li class='spc'><div class='list-info'><h3>咦？居然没有红包</h3><p class=msg>给你机会，按这里立马抽几个！</p></div>";
+							grab_href += "<div class=list-state><span class=state bd-gr><a href='" + url + "' class='grab-btn share-btn'>抢红包</a></span></div></li>";
+						$(".my-list").append(grab_href);
+					}
+					if(data.list.length < 10){
+						$(".pullup-btn").find("span").html("");
+					}
+					jQuery.each(data.list, function(i, item) {
+						var bg = "";
+						var type = "";
+						var descirble = "";
+						if(item.type == "cash"){
+							bg = "bg-rd";
+							type = "现金红包";
+							descirble = "即时到账";
+						}else if(item.type == "invite_player"){
+							bg = "bg-gr";
+							type = "球友红包";
+							descirble = "邀请一位球友激活使用";
+						}else if(item.type == "invite_caddie"){
+							bg = "bg-bl";
+							type = "球童红包";
+							descirble = "邀请一位球童激活账号";
+						}
+						var valid = "";
+						var status = "";
+						var status_bt = "";
+						if(item.status == "not_arrival"){
+							valid = "valid";
+							var time = new Date(item.limit_time).format("yyyy-MM-dd");
+							status = "有效期至" + time;
+							status_bt = "<span class='state'><strong>任务</strong><small>未完成</small></span>";
+						}else if(item.status == "arrival"){
+							status = "已到账";
+							status_bt = "<span class='state bd-gr'><a href='#' class='grab-btn share-btn' data-share_id='" + item.share_id 
+										+ "' data-amount='" + item.amount.toFixed(2) + "' onclick='share(this)'>抢红包</a></span>";
+						}else if(item.status == "overdue"){
+							status = "已过期";
+							status_bt = "<span class='state'><strong>任务</strong><small>未完成</small></span>";
+						}
+						if(item.over == true){
+							status_bt = "<span class='state'><strong>任务</strong><small>已完成</small></span>";
+						}
+						var html = "<li class='" + valid + "'><div class='list-num " + bg + "'<i class='num'>¥</br>" + item.amount.toFixed(2) + "</i></div>";
+						html += "<div class='list-info'><h3>" + type + "</h3><p class='msg'>" + descirble + "</p>	<p class='time'>" + status + "</p></div>";
+						html += "<div class='list-state'>" + status_bt + "</div></li>";
+						$(".my-list").append(html);
+					}); 
+				});
+			};
+			getMyRedpack();
+			var share = function(evt){
+				$("#mcover").show();
+				$(".share-tip").show();
+				var share_id = $(evt).attr("data-share_id");
+				var amount = $(evt).attr("data-amount");
+				var invite_code = $.cookie("invite_code");
+				golf.share(share_id,amount,invite_code);
+			};
+		</script>
+	</body>
+</html>

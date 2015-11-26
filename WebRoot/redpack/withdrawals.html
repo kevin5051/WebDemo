@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>我的现金</title>
+		<style type="text/css">
+			.rule-cont {
+				color: #868686;
+				font-size: 1.4rem;
+			}
+			
+			.rule-cont p,.score {
+				margin-bottom: 1.0rem;
+			}
+			.rule-box{
+				padding:1.0rem 2.0rem;
+			}
+			.rule-box h3{
+				font-size: 1.8rem;
+				padding-bottom: 0.8rem;
+				margin-bottom: 1.0rem;
+				border-bottom: 1px solid #DDD8CE;
+			}
+			.ipt {
+				width: 100%;
+				border-radius: 5px;
+			}
+			.ipt {
+				border: 1px solid #C8C8C8;
+				background: #F5F5F5;
+				height: 4.0rem;
+				padding: 1.0rem;
+				font-size: 1.8rem;
+				font-weight: normal;
+				-webkit-appearance: none;
+				box-sizing: border-box;
+				outline: none;
+			}
+			.nextbtn {
+				float:left;
+				margin-left:1%;
+				display: block;
+				width: 47%;
+				height: 4.0rem;
+				line-height: 4.0rem;
+				background: #EA5504;
+				border-radius: 5px;
+				text-align: center;
+				color: #FFF;
+				font-size: 1.5rem;
+			}
+			
+			.nextbtn {
+				margin-top: 6.0rem;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="../resource/wechat/style.css">
+	</head>
+	<body>
+	<div class="rule-box">
+	<h3>我的现金</h3>
+		<div class="rule-cont">
+			<p class="account">可提现金额（元）：<span></span></p>
+		</div>
+		<p class="form-p">
+			<input class="ipt iptAmount" type="tel" placeholder="提现金额"
+			onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+		</p>
+		<a href="#" onclick="myWithdrawals()" class="nextbtn">现金收支记录</a>
+		<a href="#" onclick="submit(this)" class="nextbtn">提交</a>
+	</div>
+	
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script>
+		golf.noShare();
+			$.post("../getMyTotalAmount.do", {
+				"user_id" : golf.getUrlVars()["user_id"]
+			}, function(data) {
+				$(".account").find("span").html(data);
+			});
+			
+			var submit = function(){
+				var user_id = golf.getUrlVars()["user_id"];
+				var amount = $(".iptAmount").val();
+				if(amount == ""){
+					alert("请输入提现金额");
+				}else{
+					$.post("../redpackWithdrawals.do",{
+						"user_id" : user_id,
+						"amount" : amount
+					},function(data){
+						if(data.result == "success"){
+							window.location.href = "pwSuccess.html?user_id=" + user_id;
+						}else if(data.down == false){
+							window.location.href = "pwFailed.html";
+						}else{
+							alert(data.text);
+						}
+					});
+				}
+			};
+			
+			
+			var myWithdrawals = function(){
+				var user_id = golf.getUrlVars()["user_id"];
+				window.location.href = "amountChange.html?user_id=" + user_id;
+			};
+		</script>
+	</body>
+</html>

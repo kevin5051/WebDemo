@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>球童钱包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body class="bg3">
+		<div class="cash-box">
+			<div class="my-cash">
+				<b class="icon"></b>
+				<p>我的余额</p>
+				<p class="num">¥0.00</p>
+			</div>
+			<div class="get-cash">
+				<p style="color: red;font-size :1rem;">提醒：周末及节假日暂停提现审核</p>
+				<dl><dt>金额(元)</dt><dd><input type="number" class="ipt iptAmount" placeholder="请输入5的倍数"/></dd></dl>
+				<p style="color: red;font-size :1rem;">审核时间：工作日10:00-18:00</p>
+				<a href="#" class="btn btnc" onclick="submit()">提现</a>
+				<div class="line"></div>
+				<a class="btn btnd" href="amount_change.html">现金明细</a>
+			</div>
+		</div>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script type="text/javascript" src="js/fontsize.js"></script>
+		<script src="../resource/js/jquery.cookie.js"></script>
+		<script>
+			golf.noShare();
+			
+			var user_id = $.cookie("uid");
+			$.post("../getMyTotalAmount.do", {
+				"user_id" : user_id
+			}, function(data) {
+				$(".my-cash .num").html("¥" + data.toFixed(2));
+			});
+			
+			var submit = function(){
+				var amount = $(".iptAmount").val();
+				if(amount == ""){
+					alert("请输入提现金额");
+				}else{
+					$.post("../redpackWithdrawals.do",{
+						"user_id" : user_id,
+						"amount" : amount
+					},function(data){
+						if(data.result == "success"){
+							window.location.href = "withdrawalsSuccess.html";
+						}else{
+							if(data.failed_type == "not_down" || data.failed_type == "not_pass"){
+								window.location.href = "withdrawalsFailed.html?failed_type=" + data.failed_type;
+							}else{
+								alert(data.text);
+							}
+						}
+					});
+				}
+			};
+			
+		</script>
+	</body>
+</html>

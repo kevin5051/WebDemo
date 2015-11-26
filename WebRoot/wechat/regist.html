@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>球童激活</title>
+	<link rel="stylesheet" type="text/css" href="../resource/wechat/style.css">
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script src="../resource/js/jquery.cookie.js"></script>
+	<style type="text/css">
+	.region_select{
+		width: 40%;
+	}
+	.course_select{
+		margin-left: 3%; 
+		width: 55%;
+	}
+	select{
+		height: 4rem;
+		font: bold;
+		text-align: left;
+	}
+	option{
+		height: 3rem;
+		vertical-align: center;
+	}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>球童激活</h1>
+	</header>
+	<div class="login_box">
+		<p class="form-p">
+			<input class="ipt phoneipt" type="tel" placeholder="手机号码">
+		</p>
+		<p class="form-p code-p">
+			<input class="ipt codeipt" type="text" placeholder="验证码"><a
+				href="#" class="getcodebtn" onclick="getCode(this);">获取验证码</a>
+		</p>
+		<p class="form-p code-p">
+			<select name="region" class="region_select" onchange="regionChange()"> 
+				<option value="-1">选择您工作的球场省份</option>
+			</select>
+			<select name="course" class="course_select"> 
+				<option value="-1">选择您工作的球场</option>
+			</select>
+		</p>
+		
+		<p class="form-p code-p">
+			<input class="ipt noipt" placeholder="工号">
+		</p>
+		<p style="font-size: 15px;margin-top: 2.0rem;"><input type="checkbox" class="agree-check" checked="checked">&nbsp;我同意<a href="http://m.golf2win.cn/iCard/privacy.html">《用户使用服务协议》</a></p>
+		<p class="form-p msg-p">
+			<span style="display: none; color: red;" class="msg"></span>
+		</p>
+		<a href="#" onclick="checkCode(this)" class="nextbtn" style="margin-top: 2.0rem;">提交</a>
+	</div>
+	<script>
+	
+	golf.noShare();
+		$.post("../getRegionList.do",null,function(data){
+			jQuery.each(data.regionList, function(i, item) {
+				$(".region_select").append("<option value=" + item.id + ">" + item.name + "</option>");
+			});
+		});
+		var regionChange = function(){
+			$.post("../getCourseList.do",{
+				"region_id" : $(".region_select").val()
+			},function(data){
+				$(".course_select").html("<option value='-1'>选择您工作的球场</option>");
+				jQuery.each(data, function(i, item) {
+					$(".course_select").append("<option value=" + item.id + ">" + item.name + "</option>");
+				});
+			});
+		};
+
+		var getCode = function(evt){
+			golf.settime($(evt));
+			console.log("getCode()")
+			var telnumber = $(".phoneipt").val();
+			var type = "bound";
+			$(".msg").show();
+			if($.trim(telnumber).length == 0){
+				$(".msg").html("请输入手机号");
+			}else if($.trim(telnumber).length != 11){
+				$(".msg").html("手机号格式错误");
+			}else{
+				$.post("../getVerificationCode.do",{
+					"telnumber" : telnumber,
+					"type" : type					
+				},function(data){
+					$(".msg").html(data.text);
+					if(data.result == "success"){
+						
+					}
+				});
+			}
+		};
+		
+		var checkCode = function(e){
+			var telnumber = $(".phoneipt").val();
+			var code = $(".codeipt").val();
+			var region_id = $(".region_select").val();
+			var course_id = $(".course_select").val();
+			var course_job_number = $(".noipt").val();
+			$(".msg").show();
+			if($.trim(telnumber).length == 0){
+				$(".msg").html("请输入手机号");
+			}else if($.trim(telnumber).length != 11){
+				$(".msg").html("手机号格式错误");
+			}else if($.trim(code).length != 6){
+				$(".msg").html("请输入6位验证码");
+			}else if($.trim(region_id) == -1){
+				$(".msg").html("请选择您工作的球场所在的省份");
+			}else if($.trim(course_id) == -1){
+				$(".msg").html("请选择您工作的球场");
+			}else if(course_id == "-1"){
+				$(".msg").html("请选择您工作的球场");
+			}else if($.trim(course_job_number).length == 0){
+				$(".msg").html("请填写您的工号");
+			}else if($.trim(course_job_number).length > 128){
+				$(".msg").html("工号不能超过128个汉字或字符");
+			}else if(!$(".agree-check").is(':checked')){
+				$(".msg").html("请勾选同意《用户使用服务协议》");
+			}else{
+				$.post("../checkAndBound.do",{
+					"telnumber" : telnumber,
+					"code" : code,
+					"course_id" : course_id,
+					"course_job_number" : course_job_number
+				},function(data){
+					if(data.result == "success"){
+						if(data.type == "success"){
+							window.location.href = "registSuccess.html";
+						}else if(data.type == "setPwd"){
+							window.location.href = "setPwd.html?telnumber=" + telnumber;
+						}else if(data.type == "merge"){
+							window.location.href = "merge.html?telnumber=" + telnumber ;
+						}
+					}else{
+						$(".msg").html(data.text);
+					}
+				});
+			}
+		};
+	</script>
+</body>
+</html>

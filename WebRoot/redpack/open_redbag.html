@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>球童新人大礼</title>
+		<link rel="stylesheet" type="text/css" href="../resource/redpack/css/style.css"/>
+	</head>
+	<body>
+		<div class="section">
+			<!-- <h1><i class="logo"></i>高球大战</h1> -->
+			<h1><img src="../resource/images/logo_name.png" alt="高球大战" title="高球大战" style="width:60%;"></h1>
+			<h2 style="color: black;">球童新人红包</h2>
+			<div class="redbag">
+				<div class="redbag-head">
+					<img src="../resource/redpack/images/rd_hd.png"/>
+					<div class="money-list"><i class="money-num"></i></div>
+				</div>
+				<div class="redbag-body">
+					<img src="../resource/redpack/images/rd_bd.png" />
+					<div class="redbag-cont">
+						<p class="code-img"><img src="../resource/redpack/images/code.png" alt="球童之家微信号" title="球童之家微信号" /></p>
+						<p class="tip-msg">红包已存入账户，<br>请长按二维码进入“球童之家”激活账户。</p>
+						<p class="note-msg"><a href="act_des.html">高球大战红包活动说明></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script>
+	golf.noShare();
+		var amount = golf.getUrlVars()["amount"];
+		$(".money-num").html("¥" + amount);
+	</script>
+	</body>
+</html>

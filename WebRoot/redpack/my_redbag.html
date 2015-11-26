@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>我的红包</title>
+		<link rel="stylesheet" type="text/css" href="../resource/redpack/css/style.css"/>
+		<style type="text/css">
+			.msg{
+				font-size: 8px;
+			}
+		</style>
+	</head>
+	<body style="background:#f5f5f5;">
+		<div class="my-all"><span>可用红包总额</span><span class="num"></span></div>
+		<ul class="my-list">
+			
+		</ul>
+		<p href="" class="pullup-btn" data-cur="0" onclick="getMyRedpack()"><span>点击查看下一页</span></p>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script>
+	golf.noShare();
+		var getMyRedpack = function(){
+			var user_id = golf.getUrlVars()["user_id"];
+			$.post("../getMyRedpackList.do", {
+				"user_id" : user_id,
+				"currentPage" : parseInt($(".pullup-btn").attr("data-cur")) + 1
+			}, function(data) {
+				$(".pullup-btn").attr("data-cur",data.currentPage);
+				$(".my-all .num").html("¥" + data.total);
+				if(data.total == 0 && $.trim($(".my-list").html()) == ""){
+					var url = "grab_redbag.html?rac_id=0&user_id=" + user_id;
+					$(".my-list").append("<li class='spc'><a href=" + url + "><h3>咦？居然没有红包</h3><p class='msg'>给你机会，按这里立马抽几个！</p></a></li>");
+				}
+				if(data.list.length < 10){
+					$(".pullup-btn").find("span").html("");
+				}
+				jQuery.each(data.list, function(i, item) {
+					var time = new Date(item.limit_time).format("MM月dd日");
+					var html = "";
+					if(item.status == 'not_arrival'){
+						html += "<li style='color:black;'>";
+					}else{
+						html += "<li>";
+					}
+					html += "<h3>" + item.title + "</h3><p class='msg'>" + item.describle + "</p><p class='time'>有效期至" + time + "</p><i class='num'>¥" + item.amount + "</i></li>";
+					$(".my-list").append(html);
+				}); 
+			});
+		}
+		getMyRedpack();
+	</script>
+	</body>
+</html>

@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>积分获取规则</title>
+		<style type="text/css">
+			/* css reset */
+			html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,em,button{margin:0;padding:0;}
+			body{ font-family:"Microsoft YaHei", "微软雅黑", arial,Simsun, sans-serif; color:#333; background-color: #fff;color:#333; }
+			img, fieldset{border:none;vertical-align:middle;}
+			table{border-collapse:collapse;}
+			a{color:#06c;text-decoration:none;}
+			a:hover{text-decoration:none;}
+			h1,h2,h3,h4,h5{font-weight: normal;}
+			ul,ol{list-style:none;}
+			input[type="button"],input[type="submit"]{-webkit-appearance:none;cursor: pointer;}
+			input[type="text"]{border-radius:0;}
+			html{font-size: 62.5%;}
+			.rule-box{
+				padding:1.0rem 2.0rem;
+			}
+			.rule-box h3{
+				font-size: 1.8rem;
+				padding-bottom: 0.8rem;
+				margin-bottom: 1.0rem;
+				border-bottom: 1px solid #DDD8CE;
+			}
+			.rule-cont{
+				color: #868686;
+				font-size: 1.4rem;
+			}
+			.rule-cont p,.score{
+				margin-bottom: 1.0rem;
+			}
+			.score-table{
+				table-layout: fixed;
+				width: 100%;
+				border-collapse: collapse;
+				border-spacing: 0;
+				word-wrap: break-word;
+				text-align: center;
+			}
+			.score-table tr th,.score-table tr td{
+				padding: 0.5rem;
+				border:1px solid #DDD8CE;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="rule-box">
+			<h3>积分获取规则</h3>
+			<div class="rule-cont">
+				<p>球童可以将高球大战App推荐身边的好友或客人安装，每次安装将会按照等级进行积分奖励，达到一定积分额度球童即可以进行提现操作。具体奖励比例为：</p>
+				<div class="score">
+					<table class="score-table">
+						<tr>
+							<th>层级</th>
+							<th>被邀请人</th>
+							<td>一</td>
+							<td>二</td>
+							<td>三</td>
+							<td>四</td>
+							<td>五</td>
+						</tr>
+						<tr class="pointRule">
+							<th>获得积分</th>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+				<p>举例来说，A的朋友介绍B安装了高球大战，B再介绍C，C又介绍了D，最后D介绍了E安装。那么A总共获得的积分是：100+30+10+5=145分。其中，5分为介绍E安装App的奖励，10分是属于D安装的，30分是C安装的奖励而100分是直接介绍B的奖励积分。</p>
+			</div>
+		</div>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script>
+
+			$.post("../getPointRules.do", {}, function(data) {
+				$(".pointRule").find("td").eq(0).html(data.invited);
+				$(".pointRule").find("td").eq(1).html(data.inviter_one);
+				$(".pointRule").find("td").eq(2).html(data.inviter_two);
+				$(".pointRule").find("td").eq(3).html(data.inviter_three);
+				$(".pointRule").find("td").eq(4).html(data.inviter_four);
+				$(".pointRule").find("td").eq(5).html(data.inviter_five);
+			});
+		</script>
+	</body>
+</html>

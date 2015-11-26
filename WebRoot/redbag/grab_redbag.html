@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>高球大战抢红包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div class="section bg2">
+			<h1><img src="images/logo_name.png" alt="高球大战" title="高球大战"></h1>
+			<p class="grab-msg">恭喜您获得了总额为<b class="col-rd totalCount">0.00</b>元的红包</p>
+			<div class="redbag redbag-open">
+				<div class="redbag-head">
+					<img src="images/rd_hd.png"/>
+					<ul class="money-list">
+					
+					</ul>
+					<!-- 被抢光start 默认隐藏 显示的时候记得加上$(".over-tip").addClass("moveup");实现动画效果-->
+					<div class="over-tip">
+						<div class="text">
+							<p class="face">ToT</p>
+							<p>手太慢啦，红包被抢光了！</p>
+						</div>
+					</div>
+					<!-- 被抢光end -->	
+				</div>
+				<div class="redbag-body">
+					<img src="images/rd_bd.png" />
+					<div class="redbag-cont">
+						<div class="invite-form">
+							<a href="#" class="btna share-btn" style="display: none;">分享给朋友</a>
+							<a href="#" class="btnb check-btn">查看我的红包</a>
+						</div>
+						<p class="note-msg"><a href="act_des.html">高球大战红包活动说明></a></p>
+					</div>
+				</div>
+			</div>
+			<div class="result">
+				<h3>看谁抢得多</h3>
+				<ul class="result-ul">
+				
+				</ul>
+			</div>
+		</div>
+		<!-- 公共遮罩层 start-->
+		<div id="mcover"></div>
+		<!-- 公共遮罩层 end-->
+		<!-- 分享提示 start-->
+		<div class="share-tip">
+			<div class="share-tip-inner">
+				<p>分享红包，你和小伙伴都能抢！</p>
+				<p>分享红包,请点击右上角按钮选择</p>
+				<p><b>"发送给朋友"</b>或<b>"分享到朋友圈"</b>哦~</p>
+			</div>
+		</div>
+		<!-- 分享提示 end-->
+		<!-- 分享成功 start-->
+		<div class="success-tip tip-box">
+			<div class="tip-box-inner">
+				<div class="tip-text">
+					<p>恭喜你分享成功，</p>
+					<p>快点去抢红包吧！</p>
+				</div>
+				<a href="#" class="close-btn">X</a>
+			</div>
+		</div>
+		<!-- 分享成功 end-->
+		<!-- 激活账户 start-->
+		<div class="account-tip tip-box">
+			<div class="tip-box-inner">
+				<h3>激活账户</h3>
+				<p class="al">请先长按下方二维码，到球童之家公众号激活后查看红包。。</p>
+				<p class="code-img"><img src="images/code.png"></p>
+				<a href="#" class="close-btn">X</a>
+			</div>
+		</div>
+		<!-- 激活账户 end-->
+		<!-- 已领取 start-->
+		<div class="grabed-tip tip-box">
+			<div class="tip-box-inner">
+				<div class="tip-text">
+					<p>你已领取过这个红包</p>
+				</div>
+				<a href="#" class="close-btn">X</a>
+			</div>
+		</div>
+		<!-- 已领取 end-->
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script src="../resource/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/fontsize.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(".share-btn").click(function(){
+					$("#mcover").show();
+					$(".share-tip").show();
+				});
+				$("#mcover").click(function(){
+					$("#mcover").hide()
+					$(".share-tip").hide();
+					$(".tip-box").hide();
+				});
+				/*弹出框关闭按钮*/
+				$(".close-btn").click(function(){
+					$("#mcover").hide();
+					$(".tip-box").hide();
+				});
+			});	
+			
+			
+			golf.noShare();
+			var invite_code = golf.getUrlVars()["invite_code"];
+			var share_id = golf.getUrlVars()["share_id"];
+			//alert("share_id:" + share_id)
+			$.post("../grabRedPack.do", {
+				"share_id" : share_id,
+				"invite_code" : invite_code
+			}, function(data) {
+				if (data.result == "success") {
+					//如果抢到了红包，初始化页面数据
+					if(data.get == true){
+						$(".totalCount").html(data.total);
+						//初始化自己抢到的红包
+						var html1 = "";
+						jQuery.each(data.redpackList, function(i, item) {
+							if(item.type == "cash"){
+								html1 += "<li class='xjhb'><span class='label'>现金</br>红包</span><span class='num'>¥" + item.amount.toFixed(2) + "</span></li>";
+							}else if(item.type == "invite_player"){
+								html1 += "<li class='yqqy'><span class='label'>邀请</br>球友</span><span class='num'>¥" + item.amount.toFixed(2) + "</span><i>任务</i></li>";
+							}else if(item.type == "invite_caddie"){
+								html1 += "<li class='yqqt'><span class='label'>邀请</br>球童</span><span class='num'>¥" + item.amount.toFixed(2) + "</span><i>任务</i></li>";
+							}
+						});
+						$(".money-list").html(html1);
+						//不是新抢到的红包，弹框提示
+						if(data.newGet == false){
+							$("#mcover").show();
+							$(".grabed-tip").show();
+						}
+						//是新人则此页面具备分享功能
+						if(data.newMan == true){
+							$(".share-btn").show();
+							//alert("新人红包share_id:" + data.share_id)
+							golf.share(data.share_id,data.total.toFixed(2),$.cookie("invite_code"));
+						}
+					}else{
+						//没有抢到红包，给出提示
+						$(".grab-msg").hide();
+						$(".over-tip").show();
+						$(".over-tip").addClass("moveup");
+					}
+					
+					//无论是否抢到红包，初始化红包排行榜
+					var html2 = "";
+					jQuery.each(data.grabCountList, function(i, item) {
+						var nickname = item.nickname;
+						if(nickname.length > 8){
+							nickname = nickname.substr(0,8) + "...";
+						}
+						html2 += "<li ";
+						if(item.rank == "1"){
+							html2 += "class='max'";
+						}
+						html2 += " ><span class='user-pic'><img src='" + item.small_icon + "'></span><span class='user-name'>"
+								+ nickname + "</span><span class='user-num'>¥" + item.amount.toFixed(2) + "</span></li>";
+					});
+					$(".result-ul").html(html2);
+				} else {
+					//数据错误提示
+					alert(data.text);
+				}
+			});
+		
+			
+			$(".check-btn").click(function(){
+				var userType = $.cookie("ut");
+				if(userType == "caddie"){
+					window.location.href = "my_redbag.html"
+				}else{
+					$(".account-tip").show();
+					$("#mcover").show();
+				}
+			});
+		</script>
+	</body>
+</html>

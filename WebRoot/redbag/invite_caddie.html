@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>邀请注册</title>
+<style type="text/css">
+.nextbtn {
+	display: block;
+	width: 100%;
+	height: 4.0rem;
+	line-height: 4.0rem;
+	background: #EA5504;
+	border-radius: 5px;
+	text-align: center;
+	color: #FFF;
+	font-size: 2.0rem;
+	margin-top: 6.0rem;
+	text-decoration: none;
+}
+
+p {
+	margin-bottom: 1.0rem;
+}
+
+.code_img {
+	width: 100%;
+}
+</style>
+</head>
+<body>
+	<header>
+		<h1 class="title" data-type="">邀请球童</h1>
+	</header>
+	<div>
+		<p class="des">请指导球童扫描下方二维码，或<b>点击右上角分享</b>。</p>
+		<p><div id="div_div" style="text-align: center;"></div></p>
+		<a href="invite_player.html" class="nextbtn">切换到球友邀请</a>
+	</div>
+
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/jquery.qrcode.js"></script>
+	<script src="../resource/js/qrcode.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script src="../resource/js/jquery.cookie.js"></script>
+	<script>
+	var invite_code = $.cookie("invite_code");
+		/************************  微信分享配置  ***************************************/
+		var url = "";
+		$.post("../getShareSign.do",{
+			"url" : window.location.href,
+			"linkUrl" : "http://m.golf2win.com/golfwinner/authorize.do?invite_code=" + invite_code
+		},function(data){
+			var title = "球童专属红包";
+			var desc = "加入高球大战，领新人红包";
+			var imgUrl = "http://m.golf2win.com/golfwinner/resource/images/r_share.png";
+			var linkUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4642a1c6933e1cfc&redirect_uri="
+				+ data.encodeUrl + "&response_type=code&scope=snsapi_userinfo&state=newGrab#wechat_redirect";
+			//生成二维码
+			$("#div_div").qrcode(golf.utf16to8(linkUrl));
+			$("#div_div").html(golf.convertCanvasToImage($("#div_div").find("canvas")[0]));
+			
+			wx.config({
+			    debug: false,
+			    appId: data.appId,
+			    timestamp: data.timestamp,
+			    nonceStr: data.nonceStr, 
+			    signature: data.signature,
+			    jsApiList: ["showMenuItems","onMenuShareTimeline","onMenuShareAppMessage"] 
+			});
+			wx.ready(function(){
+				wx.showMenuItems({
+				    menuList: ["menuItem:share:appMessage","menuItem:share:timeline"]
+				});
+				wx.onMenuShareTimeline({
+				    title: title, 
+				    link: linkUrl,
+				    imgUrl: imgUrl, 
+				    success: function () { 
+				    },
+				    cancel: function () { 
+				    }
+				});
+				wx.onMenuShareAppMessage({
+				    title: title, 
+				    desc: desc, 
+				    link: linkUrl,
+				    imgUrl: imgUrl, 
+				    type: 'link',
+				    dataUrl: '',
+				    success: function () { 
+				    },
+				    cancel: function () { 
+				    }
+				});
+			});
+			wx.error(function(res){
+				var description = ""; 
+				for(var i in res){   
+				   var property=res[i];   
+				   description+=i+" = "+property+"\n";  
+				} 
+				alert(description); 
+			    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+			});
+		});
+	/************************  微信分享配置 about ***************************************/
+	</script>
+</body>
+</html>

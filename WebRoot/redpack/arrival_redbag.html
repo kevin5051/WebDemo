@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>红包到账</title>
+		<link rel="stylesheet" type="text/css" href="../resource/redpack/css/style.css"/>
+	</head>
+	<body style="background:#FFF;">
+		<div class="section">
+			<div class="arrival-tip">
+				<p>恭喜您获得20个红包！</p>
+				<p>分享给小伙伴，大家一起抢！</p>
+			</div>
+			<a class="share-btn">点我分享</a>
+			<div class="arrival-detail">
+				<img src="../resource/redpack/images/arrival.png">
+				<p class="my-reward"><span class="label">邀请</br>球友</span><span class="num"></span></p>
+				<p class="my-cash">我的现金:</br>¥<b></b></p>	
+			</div>
+		</div>
+		<div id="mcover">
+			<div class="mtip">
+				<div class="mtip-inner">
+					<p>分享红包,请点击右上角按钮选择</p>
+					<p><b>"发送给朋友"</b>或<b>"分享到朋友圈"</b>哦~</p>
+				</div>
+			</div>
+		</div>
+		
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script>
+	golf.noShare();
+	$(function(){
+		$(".share-btn").click(function(){
+			$("#mcover").show();
+		});
+		$("#mcover").click(function(){
+			$("#mcover").hide();
+		});
+	});
+	
+	var rac_id = golf.getUrlVars()["rac_id"];
+	var user_id = golf.getUrlVars()["user_id"];
+	$.post("../getRedpackByRacId.do", {
+		"rac_id" : rac_id,
+		"user_id" : user_id
+	}, function(data) {
+		if (data == null || data.redpack == null) {
+			alert("数据错误");
+		} else {
+			var describle = data.redpack.describle;
+			var amount = data.redpack.amount;
+			$(".label").html(describle.substr(0,2) + "</br>" + describle.substring(2,describle.length));
+			$(".num").html("¥" + amount);
+			$(".my-cash").find("b").html(data.total);
+		
+			
+			/************************  微信分享配置  ***************************************/
+			$.post("../getShareSign.do",{
+				"url" : window.location.href,
+				"linkUrl" : "http://m.golf2win.com/golfwinner/authorize.do?user_id=" + user_id	+ "&rac_id=" + rac_id
+			},function(data){
+				wx.config({
+				    debug: false,
+				    appId: data.appId,
+				    timestamp: data.timestamp,
+				    nonceStr: data.nonceStr, 
+				    signature: data.signature,
+				    jsApiList: ["showMenuItems","onMenuShareTimeline","onMenuShareAppMessage"] 
+				});
+				wx.ready(function(){
+					var linkUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4642a1c6933e1cfc&redirect_uri=" 
+							+ data.encodeUrl + "&response_type=code&scope=snsapi_userinfo&state=myTask#wechat_redirect";
+					var imgUrl = "http://m.golf2win.com/golfwinner/resource/images/r_share.png";
+					wx.showMenuItems({
+					    menuList: ["menuItem:share:appMessage","menuItem:share:timeline"]
+					});
+					wx.onMenuShareTimeline({
+					    title: '【球童专属】我刚刚获得了' + amount + '块,你也快来抢吧！', 
+					    link: linkUrl,
+					    imgUrl: imgUrl, 
+					    success: function () { 
+					    },
+					    cancel: function () { 
+					    }
+					});
+					wx.onMenuShareAppMessage({
+					    title: '【球童专属红包】我刚刚抢了,' + amount + '元,你也来抢吧！', 
+					    desc: '邀请球童球友加入【高球大战】，可获得更多奖励！', 
+					    link: linkUrl,
+					    imgUrl: imgUrl, 
+					    type: 'link',
+					    dataUrl: '',
+					    success: function () { 
+					    },
+					    cancel: function () { 
+					    }
+					});
+				});
+				wx.error(function(res){
+					var description = ""; 
+					for(var i in res){   
+					   var property=res[i];   
+					   description+=i+" = "+property+"\n";  
+					} 
+					alert(description); 
+				    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+		
+				});
+			});
+	/************************  微信分享配置 about ***************************************/
+		}
+	});	
+	</script>
+	</body>
+</html>

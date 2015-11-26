@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>我的积分</title>
+		<link rel="stylesheet" type="text/css" href="../resource/mgolf_weixin/css/point.css">
+	</head>
+	<body>
+		<div class="my-point section">
+			<p class="list">
+				<span class="title">我的积分</span>
+				<span class="fr num myPoint"></span>
+			</p>
+			<p class="list">
+				<span class="title">本期我的排名</span>
+				<span class="fr">第<b class="num myRanking"></b>名</span>
+			</p>
+			<p class="tips"><a href="pointRule.html">积分获取规则</a></p>
+		</div>
+		<div class="point-record section">
+			<h3>积分记录</h3>
+			<div class="point">
+				<table class="point-table">
+					
+				</table>
+			</div>
+			<div class="oprate-box"><a class="more-btn" data-currentPage="0" href="#" onclick="loadMyPoint()">点击查看更多</a></div>
+		</div>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script>
+		golf.noShare();
+			var loadMyPoint = function() {
+				$.post("../getMyPointChangeLog.do", {
+					"user_id" : golf.getUrlVars()["user_id"],
+					"currentPage" : parseInt($(".more-btn")
+							.attr("data-currentPage")) + 1
+				}, function(data) {
+					if (data.result == "success") {
+						$(".myPoint").html(data.point);
+						$(".myRanking").html(data.ranking);
+						$(".more-btn").attr("data-currentPage", data.currentPage);
+						if(data.pointChangeLogList.length == 0){
+							if(data.currentPage == 1){
+								$(".more-btn").value("暂无积分变更记录");
+							}else{
+								$(".more-btn").value("没有更多数据记录");
+							}
+						}
+						jQuery.each(data.pointChangeLogList, function(i, item) {
+							var time = new Date(item.create_time).format("MM月dd日 hh时mm分");
+							var point = "";
+							var col = "";
+							if(item.point > 0){
+								point = "+" + item.point + "分";
+								col = "color-rd";
+							}else{
+								point = item.point + "分";
+								col = "color-gr";
+							}
+							if(item.reason == "cash_pending"){
+								point = "待处理";
+							}else if(item.reason == "cash_reject"){
+								point = "已拒绝";
+							}
+							var html = "<tr><th><p>" + item.description + "</p><p class='time'>" + time + "</p></th><td><b class='" + col + "'>" + point + "</b></td></tr>"
+							$(".point-table").append(html);
+						});
+					} else {
+						alert("查看积分失败");
+					}
+				});
+			};
+			loadMyPoint();
+		</script>
+	</body>
+</html>

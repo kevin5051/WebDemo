@@ -1,0 +1,537 @@
+.app-header {
+	padding: 10px;
+	border-bottom: 1px solid #dddddd;
+	background: white;
+	margin-bottom: 10px;
+	height: 80px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url(/Demo/resource/css/img/logo_gk.png);
+}
+
+body {
+	font-family: '微软雅黑';
+}
+
+.nav .divider {
+	height: 1px;
+	margin: 9px 0;
+	overflow: hidden;
+	background-color: #e5e5e5;
+}
+
+td .divider {
+	height: 1px;
+	margin: 9px 0;
+	overflow: hidden;
+	background-color: #e5e5e5;
+	display: block;
+}
+
+.app-area {
+	
+}
+
+.nav-tree-wrapper {
+	height: 200px;
+	border: 1px solid black;
+}
+
+.btn-fix {
+	margin-top: 8px;
+}
+
+body {
+	
+}
+
+#detail {
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+	min-height: 100px;
+}
+
+#app-right {
+	margin-left: 5px;
+}
+
+#app-left {
+	height: 250px;
+	overflow-y: scroll;
+}
+
+.ztree li span.button.ico_close,.ztree li span.button.ico_open,.ztree li span.button.ico_docu
+	{
+	background-image: none;
+	font-family: 'Glyphicons Halflings';
+	margin-top: 8px;
+	margin-left: 4px;
+}
+
+.ztree li span.button.ico_close:before,.ztree li span.button.ico_open:before
+	{
+	content: "\e012";
+}
+
+.ztree li span.button.ico_docu:before {
+	content: "\e008";
+}
+
+.centercontent-box {
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.headshot-wrapper {
+	width: 120px;
+	height: 120px;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	border-radius: 120px;
+	background-image: url("img/default-headshot.jpg");
+}
+
+.headshot-wrapper>img {
+	width: 100%;
+	height: 100%;
+}
+
+table .glyphicon {
+	cursor: pointer;
+	margin-right: 6px;
+}
+
+table .headshot {
+	width: 25px;
+	height: 25px;
+}
+
+table .note {
+	width: 240px;
+}
+
+thead {
+	background-color: #dce6f1
+}
+
+#list td,#list th,#clist td,#clist th,#plist td,#plist th,.reason td,.reason th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.reason > tbody > tr:nth-child(even) {
+  background-color: #E4E4E4;
+}
+
+.rmedit [type=checkbox] {
+	display: inline;
+}
+
+.rmedit .spet,.rmedit .glyphicon {
+	display: none;
+}
+
+.modal-dialog.lg {
+	width: 900px;
+}
+
+.twrapper {
+	height: 400px;
+	overflow-y: scroll;
+	margin-bottom: 15px;
+}
+
+.nav-pills>li.active>a,.nav-pills>li.active>a:hover,.nav-pills>li.active>a:focus
+	{
+	color: #fff;
+	background-color: #50BF4B;
+}
+
+.wkpm-tab {
+	width: 100%;
+	margin-top: 16px;
+	table-layout: fixed;
+}
+
+.wkpm-tab td,.wkpm-tab th {
+	max-width: 200px;
+	word-break: break-all;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+ 
+.position {
+	margin: 20px;
+}
+
+.indexpic {
+	width: 750px;
+	height: 340px;
+	margin: auto;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url(/Demo/resource/css/img/gk.jpg);
+	margin: auto;
+}
+
+.item {
+	width: 36px;
+	height: 36px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin-top: 8px;
+}
+
+.face {
+	background-image: url(/Demo/resource/css/img/chat/face.png);
+	margin-right: 5px;
+}
+
+.histroy {
+	background-image: url(/Demo/resource/css/img/chat/histroy.png);
+	margin-right: 5px;
+}
+
+.pic {
+	background-image: url(/Demo/resource/css/img/chat/pic.png);
+	margin-left: 12px;
+}
+
+.voice {
+	background-image: url(/Demo/resource/css/img/chat/voice.png);
+	margin-left: 12px;
+}
+
+#right {
+	background-color: #fafafa;
+}
+
+#lc {
+	width: 750px;
+	padding: 75px;
+	margin: auto;
+	position: relative;
+	border: 1px solid #cccccc;
+	padding-top: 0;
+	padding-bottom: 10px;
+	background: white;
+	border-radius: 4px;
+}
+
+.faderight {
+	left: 60px;
+	top: auto;
+	background-color: #8BE78B;
+}
+
+.fadeleft {
+	right: 60px;
+	left: auto;
+	top: auto;
+}
+
+.popover {
+	max-width: 420px;
+}
+
+.popover.right .arrow:after {
+	border-right-color: #8BE78B;
+}
+
+a.list-group-item.active,a.list-group-item.active:hover,a.list-group-item.active:focus
+	{
+	background-color: #50BF4B;
+	border-color: #50BF4B;
+}
+
+a.list-group-item.active>.badge,.nav-pills>.active>a>.badge {
+	color: #50BF4B;
+}
+
+.list-group.col-xs-2.conlist {
+	border-top-style: none;
+	overflow: auto;
+	height: 560px;
+	border: 1px solid #ddd;
+	padding-right: 0;
+	background-color: white;
+	position: absolute;
+	/* left: 762px; */
+	top: 97px;
+}
+
+.chat {
+	border-left-style: none;
+	border-right-style: none;
+}
+
+.chatimg {
+	max-width: 270px;
+	max-height: 140px;
+}
+
+.chatfacelist {
+	width: 720px;
+	position: absolute;
+	z-index: 1999;
+	display: none;
+	background-color: white;
+}
+
+.chatfacelist .chatface {
+	border: 1px solid #ddd;
+	margin-left: -4px;
+}
+
+.chatface {
+	max-width: 30px;
+}
+
+.popover {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.speak {
+	width: 150px;
+	height: 25px;
+	background-repeat: no-repeat;
+	background-image: url(/Demo/resource/css/img/chat/speak.png);
+	cursor:pointer;
+}
+
+.errorMsg {
+	color: red;
+}
+
+
+/* Image */
+	.resizeImg img {
+		cursor: pointer;
+	}
+	#__crd_attachment_edit_div__ .attachUploadTable input, #_crd_attachment_upload_dialog_ .attachUploadTable input {
+		width: 260px;
+		height: 20px;
+		background-color: #FFFFFF;
+	}
+	.cancelBtn {
+		background-color: #EDEDED;
+		/* width: 19px;
+		height: 19px;
+		margin: 1px; */
+	}
+	
+.w40{
+	width: 40px;
+}
+
+.w80{
+	width: 80px;
+}
+
+.w100{
+	width: 100px;
+}
+
+.w200{
+	width: 20px;
+}
+
+.w221{
+	width: 221px;
+}
+
+.btn_excel{
+	margin: 10px;
+}
+
+.app-main{
+	border: 0px;
+	min-height: 400px;
+}
+
+.popover-content pre {
+	padding: 0px;
+	border: 0px;
+	font-size: 14px;
+	font-family: '微软雅黑';
+	margin: 0px;
+}
+
+.icon-speak:before {
+  content: url(/Demo/resource/css/img/speak.png);
+}
+
+.icon-gag:before {
+  content: url(/Demo/resource/css/img/gag.png);
+}
+
+.icon-show:before {
+  content: url(/Demo/resource/css/img/show.png);
+}
+
+.icon-hide:before {
+  content: url(/Demo/resource/css/img/hide.png);
+}
+
+.form-reason {
+  border: 1px solid #cccccc; 
+  border-radius: 4px;
+}
+
+.table > tbody > tr:nth-child(even) {
+  background-color: #E4E4E4;
+}
+
+.table > thead > tr:nth-child(odd) {
+  background-color: #50BF4B;
+  color:#FFF;
+}
+.order_no {
+	cursor:pointer;
+}
+
+ .order_table td,
+ .order_table th {
+    background-color: #fff !important;
+  }
+.order_table {
+    border-collapse: collapse !important;
+  }
+
+.order_table {
+  margin-bottom: 20px;
+}
+.order_table > thead > tr > th,
+.order_table > tbody > tr > th,
+.order_table > tfoot > tr > th,
+.order_table > thead > tr > td,
+.order_table > tbody > tr > td,
+.order_table > tfoot > tr > td {
+  padding-bottom:30px;
+  padding-right:12px;
+  vertical-align: top;
+}
+.order_table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+.order_table > caption + thead > tr:first-child > th,
+.order_table > colgroup + thead > tr:first-child > th,
+.order_table > thead:first-child > tr:first-child > th,
+.order_table > caption + thead > tr:first-child > td,
+.order_table > colgroup + thead > tr:first-child > td,
+.order_table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.order_table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+.order_table .table {
+  background-color: #ffffff;
+}
+
+.order_table_div {
+	height:600px;
+	overflow-y: auto;
+}
+
+.order_table_reply_div {
+	height:230px;
+	overflow-y: auto;
+}
+
+.order_reply_reply > tbody > tr > td {
+   padding-bottom:4px;
+   padding-right:12px;
+   padding-left: 5px;
+}
+
+.order_content_table > tbody > tr > td {
+   padding-bottom:20px;
+}
+.order_file_table > tbody > tr > td {
+   padding-bottom:20px;
+}
+
+.manager_div label{
+	margin-left: 10px;
+	margin-right: 20px;
+	padding-bottom: 20px;
+	width: 76px;
+}
+
+.send-order:before{
+	content: url(/Demo/resource/css/img/send_order.png);
+}
+
+/****************************** Repair　Order Log Star Begin ******************************/
+.log_star * {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.log_star {
+	color: #666;
+	font: 12px/1.5 Arial;
+}
+
+.log_star {
+	position: relative;
+	width: 600px;
+	margin: 20px auto;
+	height: 24px;
+}
+
+.log_star ul,.log_star span {
+	float: left;
+	display: inline;
+	height: 19px;
+	line-height: 19px;
+}
+
+.log_star ul {
+	margin: 0 10px;
+}
+
+.log_star li {
+	float: left;
+	width: 24px;
+	cursor: pointer;
+	text-indent: -9999px;
+	background: url(/Demo/resource/css/img/star.png) no-repeat;
+}
+
+.log_star strong {
+	color: #f60;
+	padding-left: 10px;
+}
+
+.log_star li.on {
+	background-position: 0 -28px;
+}
+
+.log_star p {
+	position: absolute;
+	top: 20px;
+	width: 159px;
+	height: 60px;
+	display: none;
+	padding: 7px 10px 0;
+}
+
+.log_star p em {
+	color: #f60;
+	display: block;
+	font-style: normal;
+}
+
+/****************************** Repair　Order Log Star End ******************************/

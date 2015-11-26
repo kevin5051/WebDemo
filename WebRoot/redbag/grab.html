@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no"/>
+	    <meta http-equiv="Pragma" content="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>球童专属红包</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div class="section bg2">
+			<h1><img src="images/logo_name.png" alt="高球大战" title="高球大战"></h1>
+			<h2><img src="images/title_qtzs.png" alt="球童专属红包" title="球童专属红包"></h2>
+			<div class="redbag redbag-close">
+				<div class="redbag-body">
+					<img src="images/rd1.png" />
+					<p class="note-msg"><a href="act_des.html">高球大战红包活动说明></a></p>
+				</div>
+				<a class="open-btn" onclick="getRedPack()">打开</br>红包</a>			
+			</div>
+		</div>
+		<script src="../resource/js/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="js/fontsize.js"></script>
+		<script src="../resource/js/golf/golf01.js"></script>
+		<script>
+			golf.noShare();
+			var getRedPack = function(){
+				var invite_code = golf.getUrlVars()["invite_code"];
+				var share_id = golf.getUrlVars()["share_id"];
+				window.location.href = "grab_redbag.html?share_id=" + share_id + "&invite_code=" + invite_code;
+			};
+		</script>
+	</body>
+</html>

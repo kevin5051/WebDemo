@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>高球大战抢红包</title>
+		<link rel="stylesheet" type="text/css" href="../resource/redpack/css/style.css"/>
+	</head>
+	<body>
+		<div class="section">
+			<h1 class="smlsize"><i class="logo"></i>高球大战抢红包</h1>
+			<p class="grab-msg">这些红包您都已经领取过了哦！</p>
+			<div class="redbag redbag-open">
+				<div class="redbag-head">
+					<img src="../resource/redpack/images/rd_hd.png"/>
+					<ul class="money-list">
+					</ul>	
+				</div>
+				<div class="redbag-body">
+					<img src="../resource/redpack/images/rd_bd2.png" />
+					<div class="redbag-cont">
+						<div class="invite-form">
+							<a href="" class="btna invite_caddie">邀请球童兑换红包</a>
+							<a href="" class="btnb invite_player">邀请球友<small>(球友再邀请球友,您也有奖！)</small></a>
+						</div>
+						<p class="note-msg"><a href="act_des.html">高球大战红包活动说明></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script src="../resource/js/jquery-1.10.2.js"></script>
+	<script src="../resource/js/golf/golf01.js"></script>
+	<script>
+	golf.noShare();
+			var rac_id = golf.getUrlVars()["rac_id"];
+			var user_id = golf.getUrlVars()["user_id"];
+			$.post("../getRedpack.do", {
+				"rac_id" : rac_id,
+				"user_id" : user_id
+			}, function(data) {
+				if (data.result == "success") {
+					$(".total").html();
+					$(".invite_caddie").attr("href","invite.html?page=invite_caddie&invite_code=" + data.code);
+					$(".invite_player").attr("href","invite.html?page=invite_player&invite_code=" + data.code);
+					jQuery.each(data.list, function(i, item) {
+						var title = item.title;
+						var amount = item.amount;
+						var html = "<li><span class='label'>" + title.substr(0,2) + "</br>" + title.substring(2,title.length) + "</span><span class='num'>¥" + amount + "</span></li>";
+						$(".money-list").append(html);
+					}); 
+				} else {
+					alert(data.text);
+				}
+			});
+	</script>
+	</body>
+</html>
